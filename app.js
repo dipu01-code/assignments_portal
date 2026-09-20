@@ -23,7 +23,7 @@ app.post('/assignments', async (req,res) => {
             errorMessage: 'Server Failed'
         });2
     }
-})
+});
 
 app.get('/assignments', async (req, res) => {
     try{
@@ -38,7 +38,7 @@ app.get('/assignments', async (req, res) => {
             errorMessage: 'Server Down Ha Sir.'
         });
     }
-})
+});
 
 app.patch('/assignments/:id', async(req, res) => {
     try{
@@ -62,7 +62,7 @@ app.patch('/assignments/:id', async(req, res) => {
         errorMessage: 'Server Band Ha Sir'
     });
     }
-})
+});
 
 app.delete('/assignments/:id', async(req, res) => {
     try{
@@ -85,7 +85,7 @@ app.delete('/assignments/:id', async(req, res) => {
             errorMessage: 'Server Band Ha Sir'
         });
     }
-})
+});
 
 app.get('/assignments', async (req, res) => {
     try{
@@ -96,14 +96,14 @@ app.get('/assignments', async (req, res) => {
                     ORDER BY id DESC`,
                     [submitted]
         );
-        res.status(200).json(result.rows)
+        res.status(200).json(result.rows);
     }catch(err){
         console.log(err.message);
         res.status(500).json({
             errorMessage: 'Server Band Ha Sir'
-        })
+        });
     }
-})
+}); 
 
 app.listen(PORT, () => {
     console.log('Welcome to the server Null Vector');
