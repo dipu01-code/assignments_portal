@@ -18,10 +18,10 @@ app.post('/assignments', async (req,res) => {
         );
         res.status(201).json(result.rows[0]);
     }catch(err){
-        console.log(err);
+        console.log(err.message);
         res.status(500).json({
             errorMessage: 'Server Failed'
-        })
+        });2
     }
 })
 
@@ -30,13 +30,13 @@ app.get('/assignments', async (req, res) => {
         let result = await pool.query(
             `SELECT * FROM assignments
             ORDER BY id DESC;`
-        )
-        res.status(200).json(result.rows)
+        );
+        res.status(200).json(result.rows);
     }catch(err){
-        console.log(err)
+        console.log(err.message);
         res.status(500).json({
             errorMessage: 'Server Down Ha Sir.'
-        })
+        });
     }
 })
 
@@ -53,16 +53,42 @@ app.patch('/assignments/:id', async(req, res) => {
         if(result.rows.length === 0){
             return res.status(404).json({
                 message: 'Assignments Not Found'
-            })
+            });
+        };
+        res.status(200).json(result.rows[0]);
+    }catch(err){
+    console.log(err.message);
+    res.status(502).json({
+        errorMessage: 'Server Band Ha Sir'
+    });
+    }
+})
+
+app.delete('/assignments/:id', async(req, res) => {
+    try{
+        const { id } = req.params;
+        let result = await pool.query(
+            `DELETE FROM assignments
+                WHERE id = $1
+                 RETURNING *;`,
+            [id]
+        );
+        if(result.rows.length === 0){
+            return res.status(404).json({
+                errorMessage: 'Assignments Not Found'
+            });
         }
         res.status(200).json(result.rows[0])
     }catch(err){
-    console.log(err)
-    res.status(502).json({
-        errorMessage: 'Server Band Ha Sir'
-    })
+        console.log(err.message)
+        res.status(500).json({
+            errorMessage: 'Server Band Ha Sir'
+        });
     }
 })
+
+
+
 app.listen(PORT, () => {
     console.log('Welcome to the server Null Vector');
 })
